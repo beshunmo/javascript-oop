@@ -3,8 +3,8 @@ class Set {
      * Создает сет, опционально принимая элементы для добавления
      * @param {...*} [items] Добавляемые элементы
      */
-    constructor() {
-        
+    constructor(...items) {
+        this._items = items;
     }
 
     /**
@@ -12,7 +12,7 @@ class Set {
      * @returns {number}
      */
     get size() {
-        
+        return this._items.length;
     }
 
     /**
@@ -20,15 +20,17 @@ class Set {
      * @returns {Array}
      */
     get values() {
-        
+        return this._items;
     }
 
     /**
      * Добавляет элемент в сет
      * @param {*} item
      */
-    add() {
-        
+    add(item) {
+        if (!this.has(item)) {
+            this._items.push(item);
+        }
     }
 
     /**
@@ -36,8 +38,8 @@ class Set {
      * @param {*} item
      * @returns {boolean}
      */
-    has() {
-        
+    has(item) {
+        return this._items.includes(item);
     }
 
     /**
@@ -45,15 +47,19 @@ class Set {
      * @param {*} item
      * @returns {boolean}
      */
-    remove() {
-        
+    remove(item) {
+        if (!this.has(item)) return false;
+
+        this._items = this._items.filter(i => i !== item);
+
+        return true;
     }
 
     /**
      * Удаляет все элементы в сете
      */
     clear() {
-        
+        this._items = [];
     }
 
     /**
@@ -61,8 +67,8 @@ class Set {
      * @param {Set} set
      * @returns {Set}
      */
-    union() {
-        
+    union(set) {
+        return new Set(...this.values, ...set.values);
     }
 
     /**
@@ -70,8 +76,10 @@ class Set {
      * @param {Set} set
      * @returns {Set}
      */
-    intersection() {
-        
+    intersection(set) {
+        let commonItems = this.values.filter(item => set.has(item));
+
+        return new Set(...commonItems);
     }
 
     /**
@@ -79,8 +87,10 @@ class Set {
      * @param {Set} set
      * @returns {Set}
      */
-    difference() {
+    difference(set) {
+        let differentItems = this.values.filter(item => !set.has(item));
         
+        return new Set(...differentItems);
     }
 
     /**
@@ -88,8 +98,12 @@ class Set {
      * @param {Set} set
      * @returns {boolean}
      */
-    isSubset() {
-        
+    isSubset(set) {
+        if (this.size > set.size) {
+            return false;
+        } else {
+            return this.values.every(item => set.has(item));   
+        }
     }
 }
 
