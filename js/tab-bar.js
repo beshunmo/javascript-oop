@@ -1,28 +1,28 @@
-class TabBar {
-    constructor({ element, onChange }) {
-        this.element = element;
-        this.onChange = onChange;
+export default class TabBar {
+    constructor({ element, tabs, onChange }) {
+        this._element = element;
+        this._tabs = tabs;
+        this._onChange = onChange;
 
         this.init();
     }
 
-    get tabs () { return this._tabs; }
-    get activeTab() { return this._tabs.find(tab => tab.isActive); }
-    get activeTabIndex() { return this._tabs.findIndex(tab => tab.isActive); }
-
     init() {
-        let tabElements = this.element.querySelectorAll('.tab');
-        
-        this._tabs = Array.of(...tabElements).map(element => new Tab({ element, onActivate: this.handleActivate.bind(this) }));
+        this._tabs.forEach(tab => tab._onActivate = this.handleActivate.bind(this));
     }
+
+    get element() { return this._element; }
+    get tabs() { return this._tabs; }
+    get activeTab() { return this.tabs.find(tab => tab.isActive); }
+    get activeTabIndex() { return this.tabs.findIndex(tab => tab.isActive); }
 
     handleActivate(activeTab) {
         this._tabs.forEach(tab => {
             if (tab !== activeTab) {
                 tab.isActive = false;
             }
-        })
+        });
 
-        this.onChange(activeTab);
+        this._onChange(activeTab);
     }
 }
