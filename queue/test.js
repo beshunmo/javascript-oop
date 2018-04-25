@@ -49,7 +49,7 @@ describe('Queue', () => {
             let queue = new Queue(1, 2, 3);
 
             expect(queue.back).toBe(3);
-            exppect(queue.size).toBe(3);
+            expect(queue.size).toBe(3);
         });
     });
 
