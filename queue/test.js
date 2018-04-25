@@ -40,7 +40,7 @@ xdescribe('Queue', () => {
             let queue = new Queue(1, 2, 3);
 
             expect(queue.front).toBe(1);
-            exppect(queue.size).toBe(3);
+            expect(queue.size).toBe(3);
         });
     });
 
