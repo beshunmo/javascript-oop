@@ -18,12 +18,7 @@ export default class Tab {
     get isActive() { return this._active; }
     set isActive(value) {
         this._active = value;
-
-        if (this._active) {
-            this._element.classList.add('active');
-        } else {
-            this._element.classList.remove('active');
-        }
+        this._element.classList.toggle('active', value);
     }
 
     handleClick(event) {
