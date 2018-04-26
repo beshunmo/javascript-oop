@@ -4,7 +4,7 @@ class Map {
     }
 
     get size() {
-        return this.keys().length;
+        return this.keys.length;
     }
 
     get keys() {
