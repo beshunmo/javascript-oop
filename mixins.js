@@ -25,12 +25,12 @@ class Character {
     speak() {}
 }
 
-// class Warrior extends Character {
-//     constructor(name, weapon) {
-//         super(name)
-//         this.weapon = weapon;
-//     }
-// }
+class Warrior extends Character {
+    constructor(name, weapon) {
+        super(name)
+        this.weapon = weapon;
+    }
+}
 
 class Wizard extends Character {
     constructor(name, spell) {
@@ -55,5 +55,3 @@ function withWizardBehavior(Superclass) {
 class Warrior extends withWizardBehavior(withWarriorBehavior(Character)) {
 
 }
-
-Warrior => WizardBehavior => WarriorBehavior => Character
