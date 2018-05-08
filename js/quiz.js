@@ -1,9 +1,9 @@
 export default class Quiz {
     /**
      * @param {string} title 
-     * @param {Question[]} quiestions 
+     * @param {Question[]} questions 
      */
-    constructor(title, quiestions) {
+    constructor(title, questions) {
 
     }
 
