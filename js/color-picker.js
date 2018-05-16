@@ -59,10 +59,10 @@ export default class ColorPicker {
     }
 
     open() {
-        this.element.style.display = 'block';
+        this.element.classList.add('open');
     }
 
     close() {
-        this.element.style.display = 'none';
+        this.element.classList.remove('open');
     }
 }
