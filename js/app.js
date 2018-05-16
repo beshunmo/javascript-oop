@@ -1,6 +1,8 @@
 export default class App {
-    constructor({ canvas }) {
+    constructor({ canvas, colorPalette, colorPicker }) {
         this.canvas = canvas;
+        this.colorPalette = colorPalette;
+        this.colorPicker = colorPicker;
 
         this.context = null;
         this.isDrawing = false;
@@ -15,6 +17,15 @@ export default class App {
         this.canvas.addEventListener('mousemove', this.handleCanvasMousemove.bind(this));
         this.canvas.addEventListener('mouseup', this.handleCanvasMouseup.bind(this));
         this.canvas.addEventListener('mouseleave', this.handleCanvasMouseleave.bind(this));
+
+        this.colorPicker.onAdd = color => this.colorPalette.addColor(color);
+
+        document.querySelector('#clear-canvas-button')
+            .addEventListener('click', this.handleCanvasClear.bind(this));
+        document.querySelector('#brush-size-slider')
+            .addEventListener('change', this.handleBrushSizeChange.bind(this));
+        document.querySelector('#new-color-button')
+            .addEventListener('click', this.handleNewColorButton.bind(this));
     }
 
     handleCanvasMousedown(event) {
@@ -27,7 +38,7 @@ export default class App {
             this.context.beginPath();
             this.context.moveTo(this.lastEvent.offsetX, this.lastEvent.offsetY);
             this.context.lineTo(event.offsetX, event.offsetY);
-            this.context.strokeStyle = 'black';
+            this.context.strokeStyle = this.colorPalette.currentColor;
             this.context.stroke();
             this.lastEvent = event;
         }
@@ -39,5 +50,18 @@ export default class App {
 
     handleCanvasMouseleave(event) {
         this.isDrawing = false;
+    }
+
+    handleCanvasClear(event) {
+        this.context.fillStyle = 'white';
+        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    handleBrushSizeChange(event) {
+        this.context.lineWidth = Number(event.target.value);
+    }
+
+    handleNewColorButton(event) {
+        this.colorPicker.open();
     }
 }
