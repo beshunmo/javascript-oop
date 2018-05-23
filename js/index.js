@@ -1,6 +1,6 @@
 import App from './app.js';
 import Quiz from './quiz.js';
-import Question from './question.js';
+import { createQuestion } from './question.js';
 
 const questions = [
     {
@@ -14,7 +14,7 @@ const questions = [
             'new { x: 1, y: 2 }',
             'Object.create(null)'
         ],
-        correctAnswers: [1, 3, 5]
+        correctAnswer: [1, 3, 5]
     },
     {
         type: 'single',
@@ -61,7 +61,7 @@ const questions = [
 
 const root = document.querySelector('#app');
 
-const quiz = new Quiz('JS Quiz', questions.map(q => new Question(q.text, q.answers, q.correctAnswer)));
+const quiz = new Quiz('JS Quiz', questions.map(q => createQuestion(q)));
 
 const app = new App(root, quiz);
 

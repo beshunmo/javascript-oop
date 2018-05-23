@@ -9,4 +9,10 @@ body {
 
 .list-group-item-action {
     cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+label.list-group-item-action input {
+    margin-right: 1rem;
 }

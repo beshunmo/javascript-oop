@@ -16,16 +16,17 @@ export default class App {
      * Получает доступ к DOM-элементам, устанавливает заголовок и подписывается на событие при выборе ответа.
      */
     init() {
+        this.mainElement = this.element.querySelector('#main');
         this.titleElement = this.element.querySelector('#title');
-        this.titleElement.innerHTML = this.quiz.title;
-
         this.quizElement = this.element.querySelector('#quiz');
         this.questionElement = this.element.querySelector('#question');
         this.answersElement = this.element.querySelector('#answers');
         this.scoreElement = this.element.querySelector('#score');
         this.progressElement = this.element.querySelector('#progress');
 
-        this.answersElement.addEventListener('click', this.handleAnswerButtonClick.bind(this));
+        this.titleElement.innerHTML = this.quiz.title;
+
+        this.handleAnswer = this.handleAnswer.bind(this);
     }
 
     /**
@@ -33,9 +34,7 @@ export default class App {
      * 
      * @param {Event} event 
      */
-    handleAnswerButtonClick(event) {
-        let answer = event.target.id;
-
+    handleAnswer(answer) {
         this.quiz.checkAnswer(answer);
         this.displayNext();
     }
@@ -64,14 +63,11 @@ export default class App {
      * Отображает ответы.
      */
     displayAnswers() {
-        let answers = this.quiz.currentQuestion.answers;
-        let html = '';
+        this._emptyElement(this.answersElement);
 
-        for (let i = 0; i < answers.length; i++) {
-            html += `<li id="${i}" class="list-group-item list-group-item-action">${answers[i]}</li>`;
-        }
+        let element = this.quiz.currentQuestion.renderAnswers(this.handleAnswer);
 
-        this.answersElement.innerHTML = html;
+        this.answersElement.appendChild(element);
     }
 
     /**
@@ -87,7 +83,15 @@ export default class App {
      * Отображает результат теста.
      */
     displayScore() {
-        let html = `<header class="card-header">Правильных ответов: ${this.quiz.score}</header>`;
-        this.quizElement.innerHTML = html;
+        this.mainElement.remove();
+        this.progressElement.innerHTML = `Правильных ответов: ${this.quiz.score}`;
+    }
+
+    _emptyElement(element) {
+        if (element.childNodes.length === 0) return;
+
+        element.childNodes.forEach(node => {
+            element.removeChild(node)
+        });
     }
 }

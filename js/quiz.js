@@ -34,7 +34,7 @@ export default class Quiz {
      */
     checkAnswer(answer) {
         if (this.currentQuestion.isCorrectAnswer(answer)) {
-            this.score++;
+            this.score += 1;
         }
 
         this.currentQuestionIndex++;
